@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Voiceflow Alexa2Google Converter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="body-main">
+    <div class="container center-align">
+      <img src="../assets/images/vf_blue.png" class='logo'></img>
+      <p>Select the Alexa project to convert</p>
+      <form id="project-form">
+        <div class="file-field input-field">
+          <div class="btn indigo darken-4">
+            <span>Browse</span>
+            <input type="file" accept=".vf,application/json,application/vf" name="project" single id="input">
+          </div>
+          <div class="file-path-wrapper">
+            <input type="text" class="file-path validate"
+            placeholder="Your project path" id='path'>
+          </div>
+        </div>
+        <button type="submit" id='submit' class="waves-effect waves-light indigo darken-4 btn-large" style="visibility: hidden;">Convert
+      </form>
+    </div>
+    <script src="js/materialize.min.js"></script>
+    <script>
+      const path = require('path')
+      const os = require('os')
+      const {ipcRenderer} = require('electron')
+      const form = document.getElementById('project-form')
+      const project = document.getElementById('input')
+      const button = document.getElementById('submit')
+      const pathText = document.getElementById('path')
+
+      project.addEventListener("change", function () {
+        console.log(project.files)
+      if (project.files.length > 0) {
+          button.style.visibility = 'visible';
+          return;
+      }
+      button.style.visibility = 'hidden';
+      });
+
+      // On submit
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        const projectPath = project.files[0].path
+        ipcRenderer.send('project:convert', {projectPath})
+      })
+
+      // On done
+      ipcRenderer.on('convert:done', () => {
+        M.toast({
+          html:'You project has been converted'
+        })
+        button.style.visibility = 'hidden';
+        pathText.value = ''
+      })
+    </script>
+</body>
+</html>
