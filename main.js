@@ -4,7 +4,7 @@ const os = require('os')
 const fs = require('fs')
 const _ = require('underscore')
 const beautify = require('json-beautify')
-const log = require('electron')
+const log = require('electron-log')
 
 // Set env
 //process.env.NODE_ENV = 'development'
@@ -115,13 +115,14 @@ ipcMain.on('project:convert', (e, options) => {
     path.parse(options.projectPath).dir +
     '/ga_' +
     path.parse(options.projectPath).base
+  log.info(options)
   convertProject(options.projectPath, options.dest)
 })
 
 async function convertProject(projectPath, dest) {
   try {
     fs.readFile(projectPath, function (err, data) {
-      if (err) throw err
+      if (err) return log.error(err)
 
       // Update project's info
       let project = JSON.parse(data.toString('utf8'))
@@ -260,7 +261,7 @@ async function convertProject(projectPath, dest) {
         dest,
         beautify(project, null, 2, 80).toString('utf8'),
         function (err) {
-          if (err) return console.log(err)
+          if (err) return log.error(err)
           shell.openPath(path.parse(dest).dir)
 
           mainWindow.webContents.send('convert:done')
@@ -268,7 +269,7 @@ async function convertProject(projectPath, dest) {
       )
     })
   } catch (error) {
-    console.log(error)
+    log.error(error)
   }
 }
 
