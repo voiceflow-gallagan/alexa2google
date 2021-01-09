@@ -20,7 +20,7 @@
           </div>
           <div class="file-path-wrapper">
             <input type="text" class="file-path validate"
-            placeholder="Your project path" id='path'>
+            placeholder="Your project's name" id='path'>
           </div>
         </div>
         <button type="submit" id='submit' class="waves-effect waves-light indigo darken-4 btn-large" style="visibility: hidden;">Convert
@@ -55,7 +55,7 @@
       // On done
       ipcRenderer.on('convert:done', () => {
         M.toast({
-          html:'You project has been converted'
+          html:'Your project has been converted'
         })
         button.style.visibility = 'hidden';
         pathText.value = ''
