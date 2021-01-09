@@ -1,7 +1,7 @@
 {
   "name": "alexa2google",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Alexa to Google Voiceflow projects converter",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",

@@ -2,6 +2,12 @@
 
 Electron App | Alexa to Google converter for .vf (Voiceflow file)
 
-Alpha version
+Alpha version 0.1.1
 
-- Added quick log ([user]/Library/Logs/alexa2google/main.log)
+# Changelog
+- Added a quick log ([user]/Library/Logs/alexa2google/main.log)
+- Fixed some typos
+
+# To do
+- Error handling during the conversion
+
